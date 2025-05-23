@@ -59,6 +59,20 @@ A fun and educational binary learning game that teaches users how to decode bina
 4. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000) to start playing!
 
+## 🚀 One-Click Deployment
+
+Deploy your own Binary Decoder Challenge with Vercel in one click:
+
+<a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Falanchelmickjr%2Fv0-binary-learning-game">
+  <img src="https://vercel.com/button" alt="Deploy with Vercel" />
+</a>
+
+This will:
+1. Clone the repository to your GitHub account
+2. Create a new Vercel project
+3. Deploy the app automatically
+4. Provide you with a unique URL to share your Binary Decoder Challenge
+
 ## 🌐 Deploy to Vercel
 
 The easiest way to deploy your Binary Decoder Challenge is to use Vercel:
@@ -153,9 +167,9 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Credits
 
-**Created by:**
-- **v0** - Vercel's AI-powered development assistant
-- **Alan@MiraAi.ai** - Game concept and requirements
+**Created with ❤️ by:**
+- [MiraAI.ai](https://miraai.ai) - Game concept and requirements
+- [v0.dev](https://v0.dev) - Vercel's AI-powered development assistant
 
 **Built with:**
 - [Next.js](https://nextjs.org/) - React framework

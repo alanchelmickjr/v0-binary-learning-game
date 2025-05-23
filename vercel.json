@@ -1,0 +1,17 @@
+{
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "regions": ["auto"],
+  "github": {
+    "silent": true
+  },
+  "env": {
+    "NEXT_PUBLIC_APP_URL": {
+      "type": "string",
+      "description": "The URL of your deployed app"
+    }
+  }
+}
