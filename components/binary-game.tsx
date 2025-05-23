@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -23,6 +23,8 @@ import { toast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 import { cn } from "@/lib/utils"
 import { getAIHint } from "@/lib/ai-hints"
+import { playSound, SOUNDS, toggleSound, isSoundEnabled } from "@/lib/sound-utils"
+import { Volume2, VolumeX } from "lucide-react"
 
 // Game levels with increasing difficulty
 const GAME_LEVELS = [
@@ -98,9 +100,22 @@ export default function BinaryGame() {
   const [hintUsed, setHintUsed] = useState(false)
   const [attemptsMade, setAttemptsMade] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
+  const [soundEnabled, setSoundEnabled] = useState(true)
 
   const levelData = GAME_LEVELS.find((l) => l.level === currentLevel) || GAME_LEVELS[0]
   const currentChallenge = levelData.challenges[currentChallengeIndex]
+
+  // Initialize sound state from localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setSoundEnabled(isSoundEnabled())
+    }
+  }, [])
+
+  const handleToggleSound = () => {
+    const newState = toggleSound()
+    setSoundEnabled(newState)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -111,6 +126,9 @@ export default function BinaryGame() {
       const pointsEarned = hintUsed ? 5 : 10
       setScore(score + pointsEarned)
       setStreak(streak + 1)
+
+      // Play success sound
+      playSound(SOUNDS.SUCCESS, 0.4)
 
       toast({
         title: "Correct! 🎉",
@@ -125,6 +143,9 @@ export default function BinaryGame() {
 
         // Extra celebration for completing the final level
         if (currentLevel === GAME_LEVELS.length && currentChallengeIndex === levelData.challenges.length - 1) {
+          // Play game complete sound
+          playSound(SOUNDS.GAME_COMPLETE, 0.5)
+
           // Multiple confetti bursts for final completion
           setTimeout(() => {
             confetti.classList.add("animate-confetti-burst")
@@ -143,12 +164,17 @@ export default function BinaryGame() {
       if (currentChallengeIndex < levelData.challenges.length - 1) {
         moveToNextChallenge()
       } else if (currentLevel < GAME_LEVELS.length) {
+        // Play level complete sound
+        playSound(SOUNDS.LEVEL_COMPLETE, 0.5)
         setShowLevelComplete(true)
       } else {
         setShowGameComplete(true)
       }
     } else {
       // Incorrect answer
+      // Play error sound
+      playSound(SOUNDS.ERROR, 0.3)
+
       toast({
         title: "Not quite right",
         description: "Try again or use a hint!",
@@ -166,12 +192,18 @@ export default function BinaryGame() {
       setShowHint(true)
       setHintUsed(true)
       setStreak(0)
+
+      // Play a subtle sound when getting a hint
+      playSound(SOUNDS.SUCCESS, 0.2)
     } catch (error) {
       toast({
         title: "Hint Error",
         description: "Couldn't get a hint right now. Try again later!",
         variant: "destructive",
       })
+
+      // Play error sound
+      playSound(SOUNDS.ERROR, 0.2)
     } finally {
       setIsLoading(false)
     }
@@ -219,6 +251,9 @@ export default function BinaryGame() {
     setShowAnswer(true)
     setHintUsed(true)
     setStreak(0)
+
+    // Play a subtle sound when revealing the answer
+    playSound(SOUNDS.SUCCESS, 0.2)
   }
 
   // Calculate progress percentage for current level
@@ -234,6 +269,15 @@ export default function BinaryGame() {
         </Badge>
 
         <div className="flex gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleToggleSound}
+            title={soundEnabled ? "Mute Sounds" : "Enable Sounds"}
+          >
+            {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
+          </Button>
+
           <Button variant="ghost" size="icon" onClick={() => setShowChart(true)} title="Binary Reference Chart">
             <BookOpen className="h-5 w-5" />
           </Button>
