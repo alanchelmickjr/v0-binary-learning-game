@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { HelpCircle, Award, BookOpen, Sparkles, RefreshCw, Loader2, Eye } from "lucide-react"
 import BinaryReferenceChart from "./binary-reference-chart"
-import { toast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 import { cn } from "@/lib/utils"
 import { getAIHint } from "@/lib/ai-hints"
@@ -101,6 +101,8 @@ export default function BinaryGame() {
   const [attemptsMade, setAttemptsMade] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
   const [soundEnabled, setSoundEnabled] = useState(true)
+
+  const { toast } = useToast()
 
   const levelData = GAME_LEVELS.find((l) => l.level === currentLevel) || GAME_LEVELS[0]
   const currentChallenge = levelData.challenges[currentChallengeIndex]
