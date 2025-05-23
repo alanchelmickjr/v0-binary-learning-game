@@ -101,6 +101,7 @@ export default function BinaryGame() {
   const [attemptsMade, setAttemptsMade] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
   const [soundEnabled, setSoundEnabled] = useState(true)
+  const [showIncorrectFlash, setShowIncorrectFlash] = useState(false)
 
   const { toast } = useToast()
 
@@ -183,6 +184,10 @@ export default function BinaryGame() {
         variant: "destructive",
       })
       setStreak(0)
+
+      // Flash the input red for incorrect answer
+      setShowIncorrectFlash(true)
+      setTimeout(() => setShowIncorrectFlash(false), 1000)
     }
   }
 
@@ -310,7 +315,10 @@ export default function BinaryGame() {
                 value={userAnswer}
                 onChange={(e) => setUserAnswer(e.target.value)}
                 placeholder="Type your answer..."
-                className="flex-1"
+                className={cn(
+                  "flex-1 transition-all duration-300",
+                  showIncorrectFlash && "border-red-500 bg-red-50 dark:bg-red-950/20 animate-pulse animate-shake",
+                )}
                 autoComplete="off"
               />
               <Button type="submit">Check</Button>
@@ -476,6 +484,16 @@ export default function BinaryGame() {
         .animate-confetti-finale {
           background-image: url('/confetti.png');
           animation: confetti-finale 2s ease-in-out forwards;
+        }
+
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          75% { transform: translateX(5px); }
+        }
+
+        .animate-shake {
+          animation: shake 0.5s ease-in-out;
         }
       `}</style>
     </div>
