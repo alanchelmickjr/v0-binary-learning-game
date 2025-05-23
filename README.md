@@ -2,7 +2,7 @@
 
 A fun and educational binary learning game that teaches users how to decode binary code into text. Built with Next.js, powered by AI hints, and designed to make learning binary encoding enjoyable and interactive.
 
-![Binary Decoder Challenge](https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop)
+![Binary Decoder Challenge](https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=400&fit=crop&q=80)
 
 ## ✨ Features
 
